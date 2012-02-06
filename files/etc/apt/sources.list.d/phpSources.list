@@ -1,0 +1,5 @@
+deb http://ppa.launchpad.net/nginx/stable/ubuntu lucid main
+deb-src http://ppa.launchpad.net/nginx/stable/ubuntu lucid main
+
+deb http://ppa.launchpad.net/nginx/php5/ubuntu lucid main
+deb-src http://ppa.launchpad.net/nginx/php5/ubuntu lucid main

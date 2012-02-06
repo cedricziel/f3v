@@ -1,0 +1,45 @@
+server {
+        #listen   80; ## listen for ipv4; this line is default and implied
+        #listen   [::]:80 default ipv6only=on; ## listen for ipv6
+
+        fastcgi_param SYMFONY__DATABASE__PASSWORD symfony;
+        fastcgi_param SYMFONY__DATABASE__NAME symfony;
+
+        root /var/www/project;
+
+        # Make site accessible from http://localhost/
+        server_name ourfinances.localhost localhost;
+
+        autoindex       off; 
+
+        #access_log      /home/cziel/Dropbox/src/ourFinances/log/nginx/access.log combined;
+        #error_log       /home/cziel/Dropbox/src/ourFinances/log/nginx/error.log info;
+
+        location ~ "^/_Resources/Persistent/" {
+            rewrite "^(_Resources/Persistent/.{40})/.+(\..+)" /$1$2 break;
+        }   
+
+        location ~ "^/_Resources/" {
+            access_log off;
+            log_not_found off;
+            expires max;
+            break;
+        }   
+
+        location / {
+            rewrite ".*" /index.php last;
+        }
+
+        location ~ ^(.+\.php)(.*)$ {
+          	fastcgi_index index.php;
+	  		fastcgi_param   FLOW3_CONTEXT          Development;
+          	fastcgi_param   FLOW3_REWRITEURLS       0;  
+		  	fastcgi_intercept_errors on;
+		  	fastcgi_split_path_info ^(.+\.php)(.*)$;
+		  	fastcgi_param SCRIPT_FILENAME 	/var/www/project/Web$fastcgi_script_name;
+		  	fastcgi_param  PATH_INFO        $fastcgi_path_info;
+		  	fastcgi_pass unix:/tmp/php-fpm.sock;
+          	include fastcgi_params;
+          	# fastcgi_param SCRIPT_NAME $script;
+        }
+}
