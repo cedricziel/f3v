@@ -1,14 +1,13 @@
 class webserver {
-  file { 'add_phpfpm':
-    source => "/vagrant/Vagrant/files/etc/apt/sources.list.d/phpSources.list",
-    path => "/etc/apt/sources.list.d/phpsources.list",
+  file { '/etc/apt/sources.list.d/phpsources.list':
+    source => "/vagrant/files/etc/apt/sources.list.d/phpSources.list",
     ensure => present
   }
   
   exec { 'add_nginx_key':
     command => "sudo apt-key adv --keyserver keyserver.ubuntu.com --recv-keys C300EE8C",
     path => "/usr/bin",
-    require => File['add_phpfpm']
+    require => File['/etc/apt/sources.list.d/phpsources.list']
   }
   
   exec { 'update_sources':
@@ -24,7 +23,7 @@ class webserver {
   
   file { '/etc/nginx/sites-enabled/default':
     ensure => present,
-    source => '/vagrant/Vagrant/files/etc/nginx/sites-enabled/default',
+    source => '/vagrant/files/etc/nginx/sites-enabled/default',
   }
   
   service { nginx:
