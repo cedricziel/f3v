@@ -1,4 +1,23 @@
-Caution!
-========
+# f3v - A vagrant box for testing FLOW3
 
-This is not fully functional yet.
+As it is a very disappointing to try a framework in point of configuring your environment, vagrant to the rescue!
+
+## What does it?
+
+It sucks the lucid basebox from vagrantup.com, installs a basic nginx/php-fpm environment on it and enables you to open your project in the browser right away.
+
+## How does it do this?
+
+As a prerequesite, you should have vagrant installed. For a quick jump-in, just install the vagrant ruby gem.
+
+	$ gem install vagrant
+
+You will probably want to install this vagrant box as a submodule in your current FLOW3-project:
+
+	$ git submodule add git://github.com/cedricziel/f3v.git vagrant
+
+Your sourcecode should be placed in a src subfolder. Otherwise edit the option in the Vagrantfile.
+
+## Warning
+This should not harm your project, but it can. Please take care.
+
